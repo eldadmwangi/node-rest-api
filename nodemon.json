@@ -1,5 +1,6 @@
 {
     "env":{
-        "MONGO_ATLAS_PW":"eldad"
+        "MONGO_ATLAS_PW":"eldad",
+        "JWT_KEY":"secretkey"
     }
 }
