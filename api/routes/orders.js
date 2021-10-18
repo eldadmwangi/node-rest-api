@@ -3,8 +3,9 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const Order = require('../models/orders')
 const Product = require('../models/products')
+const checkAuth = require('../middleware/check-auth')
 
-router.get('/',(req,res,next)=>{
+router.get('/', checkAuth, (req,res,next)=>{
    Order.find()
    .select('product quantity _id')
    .populate('product')
@@ -33,7 +34,7 @@ router.get('/',(req,res,next)=>{
    })
 })
 //creating a new order//
-router.post('/', (req,res,next)=>{
+router.post('/', checkAuth, (req,res,next)=>{
     // only create an order for products that exist//
     Product.findById(req.body.productId)
     .then(product=>{
@@ -74,7 +75,7 @@ router.post('/', (req,res,next)=>{
 })
 
 //updating an order//
-router.patch('/',(req,res,next)=>{
+router.patch('/', checkAuth, (req,res,next)=>{
     res.status(200).json({
         message:'order has been updated'
     })
@@ -115,7 +116,7 @@ router.get('/:orderId', (req,res,next)=>{
 //     }
 // })
 
-router.delete('/:orderId', (req,res,next)=>{
+router.delete('/:orderId', checkAuth, (req,res,next)=>{
     Order.remove({_id:req.params.orderId})
     .exec()
     .then(result =>{
